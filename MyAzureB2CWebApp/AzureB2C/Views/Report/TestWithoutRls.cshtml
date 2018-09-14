@@ -1,0 +1,30 @@
+﻿@model AzureB2C.Models.PowerBiEmbedConfig
+
+@{
+    ViewBag.Title = ViewBag.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>@ViewBag.Title</h2>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div id="errorWrapper">
+        <h2>
+            Error
+        </h2>
+        @Model.ErrorMessage
+    </div>
+
+    return;
+}
+
+<div id="reportContainer"></div>
+
+
+<script>
+    embedReport(@Html.Raw(Json.Encode(Model)));
+    
+</script>
+
+

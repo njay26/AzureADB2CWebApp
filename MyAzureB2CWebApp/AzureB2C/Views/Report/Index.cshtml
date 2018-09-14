@@ -1,0 +1,14 @@
+﻿@using AzureB2C.Utils
+@{
+    ViewBag.Title = "Home Page";
+}
+
+<span><br/>Hello @LoggedInUserInfo.FullName();</span>
+<span><br/>Please click any one of the report's link to test</span>
+<br/><br />
+<span>
+    <ol>
+        <li>@Html.ActionLink("Test Report with RLS", "TestWithRls", "Report")</li>
+        <li>@Html.ActionLink("Test Report without RLS", "TestWithoutRls", "Report")</li>
+    </ol>
+</span>

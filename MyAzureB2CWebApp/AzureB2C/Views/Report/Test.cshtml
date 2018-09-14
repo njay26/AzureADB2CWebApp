@@ -1,0 +1,70 @@
+﻿@model AzureB2C.Models.PowerBiEmbedConfig
+
+@{
+    ViewBag.Title = ViewBag.Title;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Test</h2>
+
+@if (!string.IsNullOrEmpty(Model.ErrorMessage))
+{
+    <div id="errorWrapper">
+        <h2>
+            Error
+        </h2>
+        @Model.ErrorMessage
+    </div>
+
+    return;
+}
+
+<div id="reportContainer"></div>
+
+<script src="https://npmcdn.com/es6-promise@3.2.1"></script>
+<script src="~/Scripts/powerbi.js"></script>
+<script src="~/Scripts/jquery-1.10.2.min.js"></script>
+<script src="https://code.jquery.com/jquery-3.2.1.min.js"
+        integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+        crossorigin="anonymous"></script>
+<script src="~/Scripts/bootstrap.min.js"></script>
+
+
+<script>
+    // Read embed application token from Model
+    var accessToken = "@Model.EmbedToken.Token";
+
+    // Read embed URL from Model
+    var embedUrl = "@Html.Raw(Model.EmbedUrl)";
+
+    // Read report Id from Model
+    var embedReportId = "@Model.Id";
+
+    // Get models. models contains enums that can be used.
+    var models = window['powerbi-client'].models;
+
+    // Embed configuration used to describe the what and how to embed.
+    // This object is used when calling powerbi.embed.
+    // This also includes settings and options such as filters.
+    // You can find more information at https://github.com/Microsoft/PowerBI-JavaScript/wiki/Embed-Configuration-Details.
+    var config = {
+        type: 'report',
+        tokenType: models.TokenType.Embed,
+        accessToken: accessToken,
+        embedUrl: embedUrl,
+        id: embedReportId,
+        permissions: models.Permissions.All,
+        settings: {
+            filterPaneEnabled: true,
+            navContentPaneEnabled: true
+        }
+    };
+
+    // Get a reference to the embedded report HTML element
+    var reportContainer = $('#reportContainer')[0];
+
+    // Embed the report and display it within the div container.
+    var report = powerbi.embed(reportContainer, config);
+</script>
+
+
